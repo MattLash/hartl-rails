@@ -26,4 +26,8 @@ class User < ActiveRecord::Base
         #we encode the remember token into :remember_digest and store this in the DB
         update_attribute(:remember_digest, User.digest(remember_token))
     end
+    
+    def authenticated?(remember_token) 
+        BCrypt::Password.new(remember_digest).is_password?(remember_token)
+    end
 end
